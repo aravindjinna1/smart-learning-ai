@@ -14,7 +14,7 @@ server.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://smart-learning-ai-green.vercel.app/Ask-ai",
+      "https://smart-learning-ai-green.vercel.app",
     ],
     methods: ["GET", "POST"],
   }),
