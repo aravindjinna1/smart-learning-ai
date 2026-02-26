@@ -1,0 +1,178 @@
+// const express = require("express");
+// const dotenv = require("dotenv");
+// dotenv.config();
+
+// const askai = express();
+// askai.use(express.json()); // ✅ REQUIRED
+
+// const GEMINI_URL =
+//   `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+
+// askai.post("/askai", async (req, res) => {
+//   const { prompt } = req.body;
+
+//   if (!prompt || !prompt.trim()) {
+//     return res.status(400).json({ message: "Prompt is required" });
+//   }
+
+//   try {
+//     const response = await fetch(GEMINI_URL, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         contents: [
+//           {
+//             parts: [{ text: ` ${prompt} Answer concisely.
+// Use bullet points where possible.
+// Limit response to 300–400 words.
+// `}],
+//           },
+//         ],
+//       }),
+//     });
+
+//     const data = await response.json(); // ✅ await
+//     console.log("Gemini raw response:", JSON.stringify(data, null, 2));
+
+//     const text =
+//       data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+
+//     res.json({ text });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: "Gemini API failed" });
+//   }
+// });
+
+// module.exports = askai;
+
+
+
+
+
+
+
+
+// const express = require("express");
+// const dotenv = require("dotenv");
+// const multer = require("multer");
+// const pdfParse = require("pdf-parse");
+
+// dotenv.config();
+
+// const askai = express();
+// askai.use(express.json({ limit: "10mb" }));
+
+// /* ------------------------------
+//    MULTER CONFIG (MEMORY)
+// --------------------------------*/
+// const upload = multer({
+//   storage: multer.memoryStorage(),
+//   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
+// });
+
+// /* ------------------------------
+//    GEMINI CONFIG
+// --------------------------------*/
+// const GEMINI_URL = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
+
+// /* ------------------------------
+//    POST /askai
+// --------------------------------*/
+// askai.post("/askai", upload.single("resume"), async (req, res) => {
+//   try {
+//     const { mode = "chat", prompt = "", jobTitle = "" } = req.body;
+
+//     /* ---------- CHAT MODE ---------- */
+//     if (mode === "chat") {
+//       if (!prompt.trim()) {
+//         return res.status(400).json({ message: "Prompt is required" });
+//       }
+
+//       const response = await callGemini(`
+// You are a concise technical assistant.
+// Use bullet points.
+// Avoid unnecessary verbosity.
+
+// QUESTION:
+// ${prompt}
+//       `);
+
+//       return res.json({ text: response });
+//     }
+
+//     /* ---------- RESUME MODE ---------- */
+//     if (mode === "resume") {
+//       if (!req.file) {
+//         return res.status(400).json({ message: "Resume file is required" });
+//       }
+
+//       let resumeText = "";
+
+//       // ✅ PDF ONLY (DOCX needs another lib)
+//       if (req.file.mimetype === "application/pdf") {
+//         const parsed = await pdfParse(req.file.buffer);
+//         resumeText = parsed.text;
+//       } else {
+//         return res.status(400).json({ message: "Only PDF resumes are supported" });
+//       }
+
+//       if (!resumeText.trim()) {
+//         return res.status(400).json({ message: "Failed to extract resume text" });
+//       }
+
+//       const response = await callGemini(`
+// You are an expert ATS resume reviewer.
+
+// RULES:
+// - One page only
+// - No tables or icons
+// - Strong action verbs
+// - ATS optimized
+// - Target job: ${jobTitle || "Not specified"}
+
+// TASKS:
+// 1. Identify weaknesses
+// 2. Missing keywords
+// 3. Improved bullets
+// 4. ATS-friendly LaTeX resume
+
+// RESUME:
+// ${resumeText}
+//       `);
+
+//       return res.json({ text: response });
+//     }
+
+//     return res.status(400).json({ message: "Invalid mode" });
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: "Server failed" });
+//   }
+// });
+
+// /* ------------------------------
+//    GEMINI CALL FUNCTION
+// --------------------------------*/
+// async function callGemini(text) {
+//   const response = await fetch(GEMINI_URL, {
+//     method: "POST",
+//     headers: { "Content-Type": "application/json" },
+//     body: JSON.stringify({
+//       contents: [
+//         {
+//           role: "user",
+//           parts: [{ text }],
+//         },
+//       ],
+//     }),
+//   });
+
+//   const data = await response.json();
+//   return data?.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+// }
+
+// module.exports = askai;
+

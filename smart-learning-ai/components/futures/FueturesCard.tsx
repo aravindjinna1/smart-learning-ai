@@ -14,12 +14,12 @@ export default function FeatureCard({
 }: FeatureCardProps) {
   
   return (
-    <div className="group rounded-2xl border bg-white p-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
+    <div className="group rounded-2xl border border-gray-800 bg-[#111827] hover:border-indigo-600  p-6 shadow-sm transition-all hover:shadow-lg hover:-translate-y-1">
       <div className="flex items-center justify-center h-12 w-12 rounded-xl bg-blue-50 text-blue-600 mb-4">
         {icon}
       </div>
 
-      <h3 className="text-lg font-semibold text-gray-900">
+      <h3 className="text-lg font-semibold text-white ">
         {title}
       </h3>
 

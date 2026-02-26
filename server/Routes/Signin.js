@@ -1,6 +1,6 @@
 const express = require('express');
 const signin = express.Router();
-const signupSchema = require('../Schemas/signupSchema')
+const signupSchema = require('../Database/Schemas/signupSchema')
 const bcrypt = require('bcrypt')
 
 signin.post('/signin', async(req, res)=>{

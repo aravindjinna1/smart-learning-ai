@@ -7,7 +7,6 @@ import NewAi from "../assets/AiNew.png";
 import Idea from "../assets/idea.png";
 import AiImages from "../assets/Gemini_Generated_Image_wvn23qwvn23qwvn2-Photoroom.png";
 import gemini from "../assets/A modern, illustrati-Photoroom.png";
-import Futures from './Futures'
 import Working from './Working'
 import Footer from './Footer'
 import Fsection from './futures/FutureSection'
@@ -16,21 +15,21 @@ export default function Home() {
   return (
     <main className=" min-h-screen px-0 overflow-hidden text-white bg-[#0B0F19]">
       <section className="mx-auto px-6 py-10 grid grid-col-1 gap-10 w-screen items-center">
-        <div className=" flex flex-row items-center justify-center gap-50 text-bottom">
+        <div className=" flex flex-row items-center justify-center gap-120 text-bottom">
           <h1 className=" md:text-3xl font-bold text-white ">
             ⚡SMART LEARNING AI
           </h1>
 
           <div className="flex gap-15 text-bottom">
-            <Link className=" md:text-1xl  " href="/cources">
-              cources{" "}
+            {/* <Link className=" md:text-1xl  " href="/cources">
+              courses{" "}
             </Link>
             <Link className=" md:text-1xl  " href="/Practice">
               Practice
             </Link>
             <Link className=" md:text-1xl  " href="/Resource">
               Resources
-            </Link>
+            </Link> */}
             <Link
               className=" md:text-1xl  text-center  rounded"
               href="/Auth/Login"

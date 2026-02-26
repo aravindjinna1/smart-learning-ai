@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt"); // ✅ MISSING IMPORT
 const signup = express.Router();
 
-const SignupModel = require("../Schemas/signupSchema");
+const SignupModel = require("../Database/Schemas/signupSchema");
 
 // ❌ NOT REQUIRED here because server already uses express.json()
 // signup.use(express.json());

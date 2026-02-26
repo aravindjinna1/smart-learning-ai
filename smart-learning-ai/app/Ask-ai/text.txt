@@ -1,0 +1,572 @@
+INITIAL CODE
+
+// "use client";
+// import rehypeHighlight from "rehype-highlight";
+
+// import "highlight.js/styles/github-dark.css";
+
+// import { useState } from "react";
+
+// import ReactMarkdown from "react-markdown";
+
+// const AskiAi = () => {
+//   const [prompt, setPrompt] = useState("");
+//   const [response, setResponse] = useState("");
+//   const [loading, setLoading] = useState(false);
+
+//   const HandleSubmit = async () => {
+//     if (!prompt.trim()) return;
+
+//     setLoading(true);
+//     setResponse("");
+
+//     try {
+//       const res = await fetch("http://localhost:5000/api/app/ai/askai", {
+//         method: "POST",
+//         headers: {
+//           "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ prompt }),
+//       });
+
+//       const data = await res.json(); // ✅ await
+//       console.log("Frontend response:", data);
+
+//       setResponse(data.text); // ✅ update state
+//     } catch (error) {
+//       console.error(error);
+//     }
+
+//     setLoading(false);
+//   };
+
+
+
+
+//   function CodeBlock({ inline, className, children }: any) {
+//   const code = String(children).replace(/\n$/, "");
+
+//   const copyCode = async () => {
+//     await navigator.clipboard.writeText(code);
+//   };
+
+//   if (inline) {
+//     return (
+//       <code className="bg-gray-800 px-1 rounded text-yellow-300">
+//         {children}
+//       </code>
+//     );
+//   }
+// }
+
+//   return (
+//     <main className="flex items-center justify-center ">
+//       <section className="flex flex-col items-center gap-10 mt-6  justify-center  max-w-200">
+//       <h1 className="text-white text-4xl font-bold">Ask AI anything</h1>
+
+//  {response && (
+//         <div className="prose prose-invert max-w-none text-white bg-gray-900 p-4 rounded-lg text-white">
+//           <strong>AI Response:</strong>
+
+//            <ReactMarkdown>
+//            {response}
+//            </ReactMarkdown>
+//         </div>
+//       )}
+
+
+      
+
+//       <textarea
+//         className=" bg-[#313133] border-none text-white focus:outline-none focus:ring-none resize-none  w-200 rounded-xl p-2 "
+//         rows={4}
+//         placeholder="Ask anything..."
+//         value={prompt}
+//         onChange={(e) => setPrompt(e.target.value)}
+//       />
+
+//       <button
+//         onClick={HandleSubmit}
+//         className="text-black bg-white rounded-xl p-2 cursor-pointer "
+//       >
+//         Ask AI
+//       </button>
+
+//       {loading && <p className="text-white">Thinking...</p>}
+
+//      </section>
+//     </main>
+//   );
+// };
+
+// export default AskiAi;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+FINAL CODE
+
+
+
+
+
+
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import rehypeHighlight from "rehype-highlight";
+import "highlight.js/styles/github-dark.css";
+
+type Message = { role: "user" | "ai"; content: string };
+
+export default function AskiAi() {
+  const [prompt, setPrompt] = useState<string>("");
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [typingText, setTypingText] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const bottomRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, typingText]);
+
+  // Safe startTyping: receives a real string
+  const startTyping = (fullText: string, onComplete?: () => void) => {
+    if (typeof fullText !== "string") {
+      console.error("startTyping called with non-string:", fullText);
+      onComplete?.();
+      return;
+    }
+    setTypingText("");
+    let i = 0;
+    const interval = setInterval(() => {
+      setTypingText((prev) => prev + (fullText[i] ?? ""));
+      i++;
+      if (i >= fullText.length) {
+        clearInterval(interval);
+        onComplete?.();
+      }
+    }, 12);
+  };
+
+  // Markdown code block (fenced) renderer
+  const PreBlock = ({ children }: { children?: React.ReactNode }) => {
+    const code =
+      typeof children === "string"
+        ? children
+        : Array.isArray(children)
+        ? children.join("")
+        : "";
+
+    return (
+      <div className="relative my-4">
+        <button
+          onClick={() => navigator.clipboard.writeText(code)}
+          className="absolute right-2 top-2 text-xs bg-gray-700 px-2 py-1 rounded hover:bg-gray-600"
+        >
+          Copy
+        </button>
+        <pre className="bg-black p-4 rounded-lg overflow-x-auto">{children}</pre>
+      </div>
+    );
+  };
+
+  const InlineCode = ({ children }: { children?: React.ReactNode }) => (
+    <code className="bg-gray-800 px-1 rounded text-yellow-300">{children}</code>
+  );
+
+  // MAIN submit handler with robust debugging and error UI
+  const HandleSubmit = async () => {
+    if (!prompt.trim() || loading) return;
+
+    setError(null);
+    const userMessage: Message = { role: "user", content: prompt };
+    setMessages((prev) => [...prev, userMessage]); // append user
+    setPrompt("");
+    setLoading(true);
+
+    try {
+      // Build minimal serializable history to send to backend
+      const history = [...messages, userMessage].map((m) => ({
+        role: m.role,
+        content: m.content,
+      }));
+
+      console.log("Sending messages to backend:", history);
+
+      const combinedPrompt = history
+  .map(m =>
+    m.role === "user"
+      ? `User: ${m.content}`
+      : `AI: ${m.content}`
+  )
+  .join("\n");
+
+const res = await fetch("http://localhost:5000/api/app/ai/askai", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ prompt: combinedPrompt }), // ✅ backend satisfied
+});
+
+
+      // Debug: status + headers
+      console.log("Backend response status:", res.status, res.statusText);
+
+      // Always read raw text for debugging first
+      const raw = await res.text();
+      console.log("Raw backend response text:", raw.slice(0, 500)); // truncated
+
+      // If the response is JSON, parse it. If not, show raw.
+      let data: any = null;
+      try {
+        data = raw ? JSON.parse(raw) : null;
+      } catch (parseErr) {
+        console.warn("Response is not JSON, using raw text as error/body", parseErr);
+      }
+
+      // handle HTTP error statuses
+      if (!res.ok) {
+        const message =
+          (data && (data.error?.message || data.message || JSON.stringify(data))) ||
+          raw ||
+          `HTTP error ${res.status}`;
+        console.error("Backend returned error:", message);
+        setError(`Server error: ${message}`);
+        setLoading(false);
+        return;
+      }
+
+      // Prefer data.text if present, else search for reasonable fallback
+      const aiText = (data && (data.text || data.answer || data.result)) ?? raw ?? "";
+
+      if (!aiText || String(aiText).trim().length === 0) {
+        console.error("Empty AI response. data:", data, "raw:", raw);
+        setError("AI returned an empty response.");
+        setLoading(false);
+        return;
+      }
+
+      // Start typing from the actual string value
+      const aiString = String(aiText);
+      console.log("Starting typing with length:", aiString.length);
+
+      startTyping(aiString, () => {
+        // push final AI message when typing completes
+        setMessages((prev) => [...prev, { role: "ai", content: aiString }]);
+        setTypingText("");
+        setLoading(false);
+      });
+    } catch (err: any) {
+      console.error("Fetch failed:", err);
+      setError("Network error: " + (err?.message || String(err)));
+      setLoading(false);
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-[#0f0f0f] flex justify-center">
+      <section className="w-full max-w-3xl px-4 py-6 flex flex-col gap-4">
+        <h1 className="text-white text-3xl font-bold text-center">Ask AI anything</h1>
+
+        {/* Error box */}
+        {error && (
+          <div className="bg-red-900 text-white p-3 rounded">
+            <strong>Error:</strong> <span>{error}</span>
+            <div className="text-xs text-gray-300 mt-1">Check console & network tab for details.</div>
+          </div>
+        )}
+
+        {/* chat messages */}
+        <div className="flex flex-col gap-4 overflow-y-auto" style={{ maxHeight: "60vh" }}>
+          {messages.map((msg, i) => (
+            <div
+              key={i}
+              className={`max-w-[85%] p-4 rounded-xl ${msg.role === "user" ? "bg-blue-600 text-white self-end" : "bg-gray-900 text-white self-start"}`}
+            >
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeHighlight]}
+                components={{
+                  pre: PreBlock,
+                  code: InlineCode,
+                  p: ({ children }) => <div className="mb-3 leading-relaxed">{children}</div>,
+                  li: ({ children }) => <li className="ml-5 list-disc mb-2">{children}</li>,
+                }}
+              >
+                {msg.content}
+              </ReactMarkdown>
+            </div>
+          ))}
+
+          {/* typing bubble */}
+          {typingText && (
+            <div className="bg-gray-900 text-white p-4 rounded-xl self-start max-w-[85%]">
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{typingText}</ReactMarkdown>
+            </div>
+          )}
+
+          <div ref={bottomRef} />
+        </div>
+
+        {/* input */}
+        <textarea
+          className="bg-[#313133] text-white rounded-xl p-3 resize-none focus:outline-none"
+          rows={3}
+          placeholder="Ask anything..."
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+        />
+
+        <div className="flex gap-2">
+          <button onClick={HandleSubmit} className="bg-white text-black font-semibold rounded-xl p-2" disabled={loading}>
+            {loading ? "Thinking..." : "Ask AI"}
+          </button>
+
+          <button
+            onClick={() => {
+              console.clear();
+              setError(null);
+            }}
+            className="bg-gray-700 text-white rounded-xl p-2"
+          >
+            Clear console & errors
+          </button>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+THE SAFE ONE
+
+// "use client";
+
+// import { useEffect, useRef, useState } from "react";
+// import ReactMarkdown from "react-markdown";
+// import remarkGfm from "remark-gfm";
+// import rehypeHighlight from "rehype-highlight";
+// import "highlight.js/styles/github-dark.css";
+
+// /* ---------------- TYPES ---------------- */
+
+// type Message = {
+//   role: "user" | "ai";
+//   content: string;
+// };
+
+// /* ---------------- COMPONENT ---------------- */
+
+// export default function AskiAi() {
+//   const [prompt, setPrompt] = useState("");
+//   const [messages, setMessages] = useState<Message[]>([]);
+//   const [typingText, setTypingText] = useState("");
+//   const [loading, setLoading] = useState(false);
+
+//   const bottomRef = useRef<HTMLDivElement | null>(null);
+
+//   /* ---------------- AUTO SCROLL ---------------- */
+
+//   useEffect(() => {
+//     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+//   }, [messages, typingText]);
+
+//   /* ---------------- SUBMIT ---------------- */
+
+//   const HandleSubmit = async () => {
+//     if (!prompt.trim() || loading) return;
+
+//     const userMessage: Message = {
+//       role: "user",
+//       content: prompt,
+//     };
+
+//     setMessages((prev) => [...prev, userMessage]);
+//     setPrompt("");
+//     setLoading(true);
+
+//     try {
+//       const res = await fetch("http://localhost:5000/api/app/ai/askai", {
+//         method: "POST",
+//         headers: { "Content-Type": "application/json" },
+//         body: JSON.stringify({prompt}),
+//       });
+
+//       const data = await res.json();
+//       startTyping(data.text);
+//     } catch (err) {
+//       console.error(err);
+//       setLoading(false);
+//     }
+//   };
+
+//   /* ---------------- TYPING EFFECT ---------------- */
+
+//   const startTyping = (fullText: string) => {
+//     let index = 0;
+//     setTypingText("");
+
+//     const interval = setInterval(() => {
+//       setTypingText((prev) => prev + fullText[index]);
+//       index++;
+
+//       if (index >= fullText.length) {
+//         clearInterval(interval);
+//         setMessages((prev) => [...prev, { role: "ai", content: fullText }]);
+//         setTypingText("");
+//         setLoading(false);
+//       }
+//     }, 12);
+//   };
+
+//   /* ---------------- MARKDOWN RENDERERS ---------------- */
+
+//   const PreBlock = ({ children }: { children?: React.ReactNode }) => {
+//     const code =
+//       typeof children === "string"
+//         ? children
+//         : Array.isArray(children)
+//         ? children.join("")
+//         : "";
+
+//     return (
+//       <div className="relative my-4">
+//         <button
+//           onClick={() => navigator.clipboard.writeText(code)}
+//           className="absolute right-2 top-2 text-xs bg-gray-700 px-2 py-1 rounded hover:bg-gray-600"
+//         >
+//           Copy
+//         </button>
+
+//         <pre className="bg-black p-4 rounded-lg overflow-x-auto">
+//           {children}
+//         </pre>
+//       </div>
+//     );
+//   };
+
+//   const InlineCode = ({ children }: { children?: React.ReactNode }) => (
+//     <code className="bg-gray-800 px-1 rounded text-yellow-300">
+//       {children}
+//     </code>
+//   );
+
+//   /* ---------------- UI ---------------- */
+
+//   return (
+//     <main className="min-h-screen bg-[#0f0f0f] flex justify-center">
+//       <section className="w-full max-w-3xl px-4 py-6 flex flex-col gap-4">
+
+//         <h1 className="text-white text-3xl font-bold text-center">
+//           Ask AI anything
+//         </h1>
+
+//         {/* CHAT */}
+//         <div className="flex flex-col gap-4 overflow-y-auto">
+//           {messages.map((msg, i) => (
+//             <div
+//               key={i}
+//               className={`max-w-[85%] p-4 rounded-xl ${
+//                 msg.role === "user"
+//                   ? "bg-blue-600 text-white self-end"
+//                   : "bg-gray-900 text-white self-start"
+//               }`}
+//             >
+//               <ReactMarkdown
+//                 remarkPlugins={[remarkGfm]}
+//                 rehypePlugins={[rehypeHighlight]}
+//                 components={{
+//                   pre: PreBlock,
+//                   code: InlineCode,
+//                   p: ({ children }) => (
+//                     <div className="mb-3 leading-relaxed">{children}</div>
+//                   ),
+//                   li: ({ children }) => (
+//                     <li className="ml-5 list-disc mb-2">{children}</li>
+//                   ),
+//                 }}
+//               >
+//                 {msg.content}
+//               </ReactMarkdown>
+//             </div>
+//           ))}
+
+//           {/* TYPING BUBBLE */}
+//           {typingText && (
+//             <div className="bg-gray-900 text-white p-4 rounded-xl self-start max-w-[85%]">
+//               <ReactMarkdown>{typingText}</ReactMarkdown>
+//             </div>
+//           )}
+
+//           <div ref={bottomRef} />
+//         </div>
+
+//         {/* INPUT */}
+//         <textarea
+//           className="bg-[#313133] text-white rounded-xl p-3 resize-none focus:outline-none"
+//           rows={3}
+//           placeholder="Ask anything..."
+//           value={prompt}
+//           onChange={(e) => setPrompt(e.target.value)}
+//         />
+
+//         <button
+//           onClick={HandleSubmit}
+//           className="bg-white text-black font-semibold rounded-xl p-2"
+//         >
+//           Ask AI
+//         </button>
+
+//         {loading && (
+//           <p className="text-gray-400 text-center">Thinking...</p>
+//         )}
+//       </section>
+//     </main>
+//   );
+// }
+

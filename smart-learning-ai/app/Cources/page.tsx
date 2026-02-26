@@ -30,7 +30,7 @@ const courses = [
     description: "Build modern frontend applications",
     icon: "⚛️",
     resources: ["🎥 Video", "📘 Docs", "🧠 AI"],
-    available: true,
+    available: false,
     slug: "react",
   },
   {

@@ -13,12 +13,12 @@ export default function DashboardPage() {
         <p className="text-gray-600 mt-2">
           Learn smarter. Prepare faster. Build your career with AI.
         </p>
-        <Link href="/Auth/Login" className="text-black bg-[#111827] text-white  rounded-[10px] px-10 py-2 ">Login</Link>
+        <Link href="/Auth/Login" className="text-black bg-[#111827] text-white  rounded-[10px] px-10 py-2 border border-gray-800 hover:border-indigo-500">Login</Link>
         </div>
       </section>
 
       {/* Primary Actions */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <section className="flex gap-10 flex-col md:flex-row mb-12">
         <ActionCard
           icon=""
           title="Start Learning"
@@ -26,23 +26,23 @@ export default function DashboardPage() {
           href="/Cources"
         />
 
-        <ActionCard
+        {/* <ActionCard
           icon=""
           title="Roadmaps"
           description="Step-by-step paths for new technologies"
           href="/roadmaps"
-        />
+        /> */}
 
         <ActionCard
           icon=""
           title="Ask AI"
           description="Clear doubts instantly with AI assistance"
-          href="/ai-doubts"
+          href="/Ask-ai"
         />
 
         <ActionCard
           icon=""
-          title="Build Resume"
+          title="Resume Building Guide"
           description="Create and optimize resumes using AI"
           href="/resume"
         />
