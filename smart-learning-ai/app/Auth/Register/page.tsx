@@ -22,7 +22,7 @@ export default function RegisterPage() {
     console.log("Register Data:", data);
 
     try {
-      const res = await fetch("http://localhost:5000/api/app/signup", {
+      const res = await fetch("https://smart-learning-ai-c3ed.onrender.com/api/app/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

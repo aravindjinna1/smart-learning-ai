@@ -585,7 +585,7 @@ export default function AskiAi() {
         formData.append("resume", resumeFile as File);
         formData.append("jobTitle", jobTitle);
 
-        res = await fetch("http://localhost:5000/api/app/ai/askai", {
+        res = await fetch("https://smart-learning-ai-c3ed.onrender.com/api/app/ai/askai", {
           method: "POST",
           body: formData,
           // ❗ Do NOT set Content-Type header — browser sets it with boundary automatically
@@ -594,7 +594,7 @@ export default function AskiAi() {
 
       /* -------- CHAT MODE -------- */
       else {
-        res = await fetch("http://localhost:5000/api/app/ai/askai", {
+        res = await fetch("https://smart-learning-ai-c3ed.onrender.com/api/app/ai/askai", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
