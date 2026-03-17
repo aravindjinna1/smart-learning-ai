@@ -1,24 +1,47 @@
 const express = require("express");
-const app = express.Router();
-
+const app = express();
+const authMiddleware = require('./Routes/jwt')
 const signupRoute = require("./Routes/Signup");
 const signinRoute = require("./Routes/Signin");
-
+// const sendEmail = require('./Routes/sendOtp')
 const askai = require("./Routes/askai");
-const cors = require("cors");
 
-askai.use(
-  cors({
-    origin: [
-      "https://smart-learning-ai-green.vercel.app",
-      "http://localhost:3000",
-    ],
-    methods: ["GET", "POST"],
-  }),
-);
+
+// const forgotPassword = require('./Routes')
+
+// const cors = require("cors");
+
+// askai.use(
+//   cors({
+//     origin: [
+//       "https://smart-learning-ai-green.vercel.app",
+//       "http://localhost:3000",
+//     ],
+//     methods: ["GET", "POST"],
+//   }),
+// );
+
+const authRoutes = require("./Routes/sendEmail");
+
+
+const { forgotPassword, resetPassword } = require("./controllers/authControllers");
+
+app.use("/auth", require("./Routes/passwordRoute"));
+
+// app.use("/auth", authRoutes);
 app.use("/app", signupRoute);
 app.use("/app", signinRoute);
+// app.use("/app/otp", );
 
-app.use("/app/ai", askai);
+// app.post("/auth/forgot-password", forgotPassword);
+// app.post("/reset-password", resetPassword);
+
+// console.log("app//otp",sendEmail)
+
+const cookieParser = require("cookie-parser");
+app.use(cookieParser());
+
+app.use("/app/ai",authMiddleware, askai);
+console.log(authMiddleware)
 
 module.exports = app;

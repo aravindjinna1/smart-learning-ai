@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt"); // ✅ MISSING IMPORT
 const signup = express.Router();
-
+const jwt = require("jsonwebtoken");
 const SignupModel = require("../Database/Schemas/signupSchema");
 
 // ❌ NOT REQUIRED here because server already uses express.json()
@@ -10,6 +10,7 @@ const SignupModel = require("../Database/Schemas/signupSchema");
 signup.post("/signup", async (req, res) => {
   try {
     const { FullName, Email, Password } = req.body;
+
 
     if (!FullName || !Email || !Password) {
       return res.status(400).json({
@@ -26,7 +27,8 @@ signup.post("/signup", async (req, res) => {
       Password: hashedPassword,
     });
 
-    res.status(201).json({ // ✅ res.status
+    res.status(201).json({
+      // ✅ res.status
       message: "Signup successful",
       userId: user._id,
     });

@@ -10,11 +10,13 @@ import gemini from "../assets/A modern, illustrati-Photoroom.png";
 import Working from './Working'
 import Footer from './Footer'
 import Fsection from './futures/FutureSection'
+import Lagout from '../app/Auth/Lagout/lagout'
+import HeroImage from './HeroSection'
 
 export default function Home() {
   return (
 <main className="min-h-screen px-0 overflow-hidden text-white bg-[#0B0F19]">
-  <section className="mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 gap-10 w-full items-center">
+  <section className="mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 gap-20 w-full items-center">
     {/* Header */}
     <div className="flex flex-col md:flex-row items-center justify-between gap-6">
       <h1 className="text-2xl md:text-3xl font-bold text-white">
@@ -22,12 +24,14 @@ export default function Home() {
       </h1>
 
       <div className="flex gap-4">
-        <Link
+        
+        {/* <Link
           className="text-lg text-center rounded hover:text-blue-400 transition"
           href="/Auth/Login"
         >
           Login
-        </Link>
+        </Link> */}
+        <Lagout />
       </div>
     </div>
 
@@ -53,10 +57,14 @@ export default function Home() {
       <div className="h-64 w-full max-w-sm flex items-center justify-center">
         <Image src={HeroImg} alt="Hero Image" width={350} />
       </div>
+
+      {/* <div>
+        <HeroImage />
+      </div> */}
     </div>
 
     {/* Feature Cards */}
-    <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-20 mx-4 md:mx-12">
+    {/* <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-20 mx-4 md:mx-12">
       <div className="rounded-[10px] flex flex-col gap-3 bg-[#ADFFFF] p-4 shadow-md w-full max-w-xs h-40 cursor-pointer transition-transform duration-300 hover:scale-105">
         <Image src={BookImg} alt="Read icon" width={40} height={40} />
         <div>
@@ -86,7 +94,7 @@ export default function Home() {
           <p className="text-black">Explore resources for upskilling</p>
         </div>
       </div>
-    </div>
+    </div> */}
   </section>
 
   {/* Other Sections */}

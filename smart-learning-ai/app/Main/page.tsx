@@ -1,7 +1,23 @@
+"use client"
+import { useEffect, useState } from "react";
 import ActionCard from "./ActionCards";
-import Link from 'next/link'
+// import Link from 'next/link'
+
+import Lagout from '../Auth/Lagout/lagout'
 
 export default function DashboardPage() {
+
+  const [token, setToken] = useState('');
+
+//   useEffect(()=>{
+//   const token = localStorage.getItem("token")
+//   setToken(token)
+// })
+
+// const lagout=()=>{
+//   localStorage.removeItem("token")
+// }
+
   return (
     <div className="min-h-screen bg-[#0B0F19]  text-white px-8 py-10">
       
@@ -13,7 +29,17 @@ export default function DashboardPage() {
         <p className="text-gray-600 mt-2">
           Learn smarter. Prepare faster. Build your career with AI.
         </p>
-        <Link href="/Auth/Login" className="text-black bg-[#111827] text-white  rounded-[10px] px-10 py-2 border border-gray-800 hover:border-indigo-500">Login</Link>
+
+        {/* {token?(
+          <button onClick={Lagout} className="text-black bg-[#111827] text-white  rounded-[10px] px-10 py-2 border border-gray-800 hover:border-indigo-500">Lagout</button>
+
+        ):(
+
+           <Link href="/Auth/Login" className="text-black bg-[#111827] text-white  rounded-[10px] px-10 py-2 border border-gray-800 hover:border-indigo-500">Login</Link>
+
+        )} */}
+
+        <Lagout />
         </div>
       </section>
 

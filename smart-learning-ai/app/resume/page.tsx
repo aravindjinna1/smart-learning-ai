@@ -24,12 +24,12 @@ export default function ResumeBuilderPage() {
     {
       title: "ATS Friendly Professional Resume",
       image: "https://via.placeholder.com/400x500",
-      link: "https://www.overleaf.com/latex/templates",
+      link: "https://www.overleaf.com/latex/templates/harshibars-resume/sbcyynmtpnyd",
     },
     {
       title: "Minimal One Page Resume",
       image: "https://via.placeholder.com/400x500",
-      link: "https://www.overleaf.com/latex/templates",
+      link: "https://www.overleaf.com/latex/templates/tagged/cv",
     },
   ];
 

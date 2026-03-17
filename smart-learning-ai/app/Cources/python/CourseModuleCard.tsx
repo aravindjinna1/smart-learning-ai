@@ -25,24 +25,11 @@ export default function CourseModuleCard({
         <a
           href={youtubeUrl}
           target="_blank"
-          className="text-sm text-indigo-400 hover:underline"
+          className="text-sm text-blue-600 hover:underline"
         >
-          🎥 Watch Playlist
+          🎥 Watch Playlist →
         </a>
 
-        {resourceUrl && (
-          <a
-            href={resourceUrl}
-            target="_blank"
-            className="text-sm text-green-400 hover:underline"
-          >
-            📘 View Notes
-          </a>
-        )}
-
-        <button className="text-sm text-purple-400 hover:underline">
-          🧠 Ask AI
-        </button>
       </div>
     </div>
   );

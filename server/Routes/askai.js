@@ -1,5 +1,5 @@
 
-
+// const authMiddleware  = require('./jwt')
 
 const express = require("express");
 const dotenv = require("dotenv");
@@ -10,13 +10,15 @@ dotenv.config();
 // pdf-parse fix: some versions export the function as .default, others directly
 const pdfParseLib = require("pdf-parse");
 const pdfParse = typeof pdfParseLib === "function" ? pdfParseLib : pdfParseLib.default;
-
-const askai = express();
+const askai = express.Router();
 askai.use(express.json({ limit: "10mb" }));
 
 /* ------------------------------
    MULTER CONFIG (MEMORY)
 --------------------------------*/
+
+// askai.use(authMiddleware)
+
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1024 * 1024 }, // 5MB
@@ -39,6 +41,9 @@ const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemi
 --------------------------------*/
 askai.post("/askai", upload.single("resume"), async (req, res) => {
   try {
+    
+    // console.log("from ai chatbot log",authMiddleware)
+
     const mode = req.body?.mode || "chat";
     const prompt = req.body?.prompt || "";
     const jobTitle = req.body?.jobTitle || "";

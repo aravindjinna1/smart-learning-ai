@@ -17,7 +17,7 @@ type Video = {
 
 export default function WebDevelopmentCourse() {
   const [activeTab, setActiveTab] = useState<
-    "beginner" | "structured" | "interview"
+    "beginner" | "advanced" | "interview"
   >("beginner");
 
   const notesData: Record<string, Note[]> = {
@@ -38,7 +38,7 @@ export default function WebDevelopmentCourse() {
          url:"https://www.w3schools.com/css/css_intro.asp",
       },
     ],
-    structured: [
+    advanced: [
       {
         title: "JavaScript Deep Dive",
         description: "Closures, promises, async/await, event loop.",
@@ -125,11 +125,11 @@ export default function WebDevelopmentCourse() {
 
           {/* Tabs */}
           <div className="flex gap-4 mb-6">
-            {["beginner", "structured", "interview"].map((tab) => (
+            {["beginner", "advanced", "interview"].map((tab) => (
               <button
                 key={tab}
                 onClick={() =>
-                  setActiveTab(tab as "beginner" | "structured" | "interview")
+                  setActiveTab(tab as "beginner" | "advanced" | "interview")
                 }
                 className={`px-4 py-2 rounded-lg capitalize ${
                   activeTab === tab
@@ -153,7 +153,7 @@ export default function WebDevelopmentCourse() {
                 <p className="text-sm text-gray-600 dark:text-gray-400 mt-2">
                   {note.description}
                 </p>
-                <a href={note.url} className="mt-4 text-blue-600 hover:underline text-sm">
+                <a href={note.url} target="blank" className="mt-4 text-blue-600 hover:underline text-sm">
                   Read More →
                 </a>
               </div>

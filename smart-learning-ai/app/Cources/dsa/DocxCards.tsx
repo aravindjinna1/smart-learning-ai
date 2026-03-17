@@ -37,7 +37,7 @@ export default function ResourceCard({
             key={index}
             href={link.url}
             target="_blank"
-            className="block text-sm text-indigo-400 hover:underline"
+            className="block text-sm text-blue-600 hover:underline"
           >
             {link.label} →
           </Link>

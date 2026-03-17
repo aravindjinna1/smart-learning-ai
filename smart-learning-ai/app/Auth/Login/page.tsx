@@ -20,24 +20,30 @@ export default function LoginPage() {
     try {
       // later: API call → auth → redirect to /dashboard
 
-      const res = await fetch("https://smart-learning-ai-c3ed.onrender.comapi/app/signin", {
-        method: "POST",
+      const res = await fetch(
+        "https://smart-learning-ai-c3ed.onrender.com/api/app/signin",
+        {
+          method: "POST",
 
-        headers: {
-          "Content-Type": "application/json",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            Email: data.email,
+            Password: data.password,
+          }),
         },
-        body: JSON.stringify({
-          Email: data.email,
-          Password: data.password,
-        }),
-      });
+      );
+
+      const info = await res.json();
+      localStorage.setItem("token", info.token);
 
       if (!res.ok) {
         throw new Error("Signin failed");
       }
 
-      const result = await res.json();
-      console.log(result);
+      // const result = await res.json();
+      // console.log(result);
       alert("Signin sucessfull");
     } catch (error) {
       console.error("Signin failed", error);
@@ -72,6 +78,9 @@ export default function LoginPage() {
             register={register("password")}
             error={errors.password?.message}
           />
+           <Link href="/Auth/forgot-password" className="text-xs text-indigo-400 hover:text-indigo-300 transition-colors">
+    Forgot password?
+  </Link>
 
           <button
             type="submit"

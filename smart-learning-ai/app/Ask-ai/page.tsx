@@ -512,6 +512,8 @@ const PROMPT_PRESETS = [
   "Explain Express.js simply",
 ];
 
+
+
 export default function AskiAi() {
   const [prompt, setPrompt] = useState("");
   const [messages, setMessages] = useState<Message[]>([]);
@@ -522,7 +524,15 @@ export default function AskiAi() {
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [jobTitle, setJobTitle] = useState("");
 
+  const [token, setToken] = useState('');
+
   const bottomRef = useRef<HTMLDivElement | null>(null);
+
+
+  useEffect(() => {
+    const storedToken = localStorage.getItem("token");
+    setToken(storedToken);
+  }, []);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -640,6 +650,13 @@ export default function AskiAi() {
           AI Resume & Career Assistant
         </h1>
 
+         {!token? ( <div className="flex flex-col items-center gap-4 mt-20">
+          <p className="text-white text-2xl font-bold">🔒 Access Denied</p>
+          <p className="text-gray-400">You need to login to use this feature</p>
+          <a href="/Auth/Login" className="bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700">
+            Go to Login
+          </a>
+        </div>) : (<> 
         {/* Presets */}
         <div className="flex flex-wrap gap-2">
           {PROMPT_PRESETS.map((p) => (
@@ -761,6 +778,9 @@ export default function AskiAi() {
     ? "Analyze Resume"
     : "Ask AI"}
 </button>
+
+</>)}
+
       </section>
     </main>
   );
