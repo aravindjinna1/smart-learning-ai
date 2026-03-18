@@ -6,12 +6,14 @@ import { useEffect, useState } from "react";
 const Lagout = () => {
   const router = useRouter();
    
-  const [token, setToken] = useState();
+const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    setToken(token)
-  });
+    if(token){
+     setToken(token)
+    }
+  }, []);
 
   const HandleLagout = () => {
     localStorage.removeItem("token");
