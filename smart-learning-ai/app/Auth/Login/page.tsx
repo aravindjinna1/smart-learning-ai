@@ -21,7 +21,8 @@ export default function LoginPage() {
       // later: API call → auth → redirect to /dashboard
 
       const res = await fetch(
-        "https://smart-learning-ai-c3ed.onrender.com/api/app/signin",
+        // "https://smart-learning-ai-c3ed.onrender.com/api/app/signin",
+        "http://localhost:5000/api/app/signin",
         {
           method: "POST",
 
