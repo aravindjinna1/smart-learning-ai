@@ -1,114 +1,462 @@
 import Link from "next/link";
-import HeroImg from "../assets/hero2.png";
 import Image from "next/image";
-import BookImg from "../assets/book.png";
-import AiTech from "../assets/ai-technology.png";
-import NewAi from "../assets/AiNew.png";
-import Idea from "../assets/idea.png";
-import AiImages from "../assets/Gemini_Generated_Image_wvn23qwvn23qwvn2-Photoroom.png";
-import gemini from "../assets/A modern, illustrati-Photoroom.png";
-import Working from './Working'
-import Footer from './Footer'
-import Fsection from './futures/FutureSection'
-import Lagout from '../app/Auth/Lagout/lagout'
-import HeroImage from './HeroSection'
+import HeroImg from "../assets/finall.png";
+import CircleLogos from "./circleLogos";
+import Working from "./Working";
+import Footer from "./Footer";
+import Fsection from "./futures/FutureSection";
+import Lagout from "../app/Auth/Lagout/lagout";
+import StatsSection from "./stats";
 
 export default function Home() {
   return (
-<main className="min-h-screen px-0 overflow-hidden text-white bg-[#0B0F19]">
-  <section className="mx-auto px-4 sm:px-6 py-10 grid grid-cols-1 gap-20 w-full items-center">
-    {/* Header */}
-    <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-      <h1 className="text-2xl md:text-3xl font-bold text-white">
-        ⚡SMART LEARNING AI
-      </h1>
+    <>
+      <style>{`
+        .home-root * { box-sizing: border-box; }
 
-      <div className="flex gap-4">
-        
-        {/* <Link
-          className="text-lg text-center rounded hover:text-blue-400 transition"
-          href="/Auth/Login"
-        >
-          Login
-        </Link> */}
-        <Lagout />
-      </div>
-    </div>
+        .grid-bg {
+          background-image:
+            linear-gradient(rgba(99,102,241,0.07) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(99,102,241,0.07) 1px, transparent 1px);
+          background-size: 48px 48px;
+        }
 
-    {/* Hero Section */}
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-10 place-items-center px-4 md:px-20">
-      <div className="text-center md:text-left">
-        <h1 className="text-3xl md:text-5xl font-bold text-gray-200">
-          Learn Smarter, Not Harder
-        </h1>
-        <p className="mt-4 text-gray-300">
-          An AI-powered learning platform that adapts to your skills and goals.
-        </p>
+        /* ── Navbar ── */
+        .navbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 18px 24px;
+          position: relative;
+          z-index: 50;
+        }
+        @media (min-width: 640px) { .navbar { padding: 20px 40px; } }
 
-        <div className="mt-6 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-          <Link href="/Main">
-            <button className="bg-blue-600 cursor-pointer hover:bg-blue-500 text-white px-6 py-3 rounded-full">
-              Get Started
-            </button>
-          </Link>
+        .navbar-logo {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-size: 14px;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: #f1f5f9;
+        }
+        @media (min-width: 640px) { .navbar-logo { font-size: 15px; } }
+
+        .logo-dot {
+          width: 8px; height: 8px;
+          border-radius: 50%;
+          background: #6366f1;
+          box-shadow: 0 0 10px #6366f1;
+          animation: pulse-glow 2.5s infinite;
+          flex-shrink: 0;
+        }
+        @keyframes pulse-glow {
+          0%, 100% { box-shadow: 0 0 8px #6366f1; }
+          50% { box-shadow: 0 0 18px #6366f1, 0 0 30px #6366f1; }
+        }
+
+        /* ── Hero tag ── */
+        .hero-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          background: rgba(99,102,241,0.12);
+          border: 1px solid rgba(99,102,241,0.28);
+          color: #818cf8;
+          padding: 5px 12px;
+          border-radius: 999px;
+          font-size: 9px;
+          font-weight: 700;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          margin-bottom: 12px;
+        }
+        @media (min-width: 768px) { .hero-tag { font-size: 11px; padding: 5px 14px; margin-bottom: 18px; } }
+
+        /* ── Hero title ── */
+        .hero-title {
+          font-size: clamp(26px, 6vw, 58px);
+          font-weight: 800;
+          line-height: 1.1;
+          letter-spacing: -0.025em;
+          color: #f1f5f9;
+          margin: 0 0 12px;
+          text-align: center;
+        }
+        @media (min-width: 768px) {
+          .hero-title { margin-bottom: 18px; text-align: left; }
+        }
+
+        .hero-title .gradient-text {
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-image: linear-gradient(90deg, #6366f1, #22d3ee);
+          background-clip: text;
+        }
+
+        /* ── Hero subtitle ── */
+        .hero-subtitle {
+          font-size: clamp(13px, 2.5vw, 15px);
+          color: #64748b;
+          line-height: 1.7;
+          max-width: 460px;
+          margin: 0 auto 0;
+          text-align: center;
+        }
+        @media (min-width: 768px) {
+          .hero-subtitle { margin: 0 0 28px; text-align: left; }
+        }
+
+        /* ── CTA button ── */
+        .cta-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: linear-gradient(135deg, #4f46e5, #7c3aed);
+          color: #fff;
+          padding: 13px 28px;
+          border-radius: 14px;
+          font-weight: 700;
+          font-size: 14px;
+          text-decoration: none;
+          letter-spacing: 0.03em;
+          transition: all 0.3s;
+          border: none;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          white-space: nowrap;
+          flex: 1;
+        }
+        @media (min-width: 768px) {
+          .cta-btn { padding: 14px 30px; font-size: 15px; flex: unset; }
+        }
+        .cta-btn::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+          opacity: 0;
+          transition: opacity 0.3s;
+        }
+        .cta-btn:hover::after { opacity: 1; }
+        .cta-btn:hover {
+          box-shadow: 0 0 32px rgba(99,102,241,0.5), 0 8px 24px rgba(0,0,0,0.3);
+          transform: translateY(-2px);
+        }
+
+        .secondary-link {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          font-size: 14px;
+          font-weight: 600;
+          color: #64748b;
+          text-decoration: none;
+          letter-spacing: 0.03em;
+          transition: color 0.2s;
+          white-space: nowrap;
+          padding: 13px 20px;
+          border: 1px solid rgba(99,102,241,0.2);
+          border-radius: 14px;
+          flex: 1;
+        }
+        @media (min-width: 768px) {
+          .secondary-link {
+            border: none;
+            padding: 0;
+            flex: unset;
+            border-radius: 0;
+          }
+        }
+        .secondary-link:hover { color: #94a3b8; }
+
+        /* ── CTA row ── */
+        .cta-row {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          width: 100%;
+        }
+        @media (min-width: 768px) {
+          .cta-row { gap: 14px; width: auto; }
+        }
+
+        /* ── MOBILE hero layout (single column, stacked) ── */
+        .hero-body {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 28px 24px 56px;
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+          gap: 0;
+        }
+        @media (min-width: 768px) {
+          .hero-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto;
+            gap: 48px;
+            padding: 60px 48px;
+            align-items: center;
+          }
+        }
+        @media (min-width: 1024px) { .hero-body { padding: 60px 64px; } }
+
+        /* ── Text block ── */
+        .hero-text {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          /* On mobile: order 1 (top) */
+          order: 1;
+        }
+        @media (min-width: 768px) {
+          .hero-text { align-items: flex-start; order: unset; }
+        }
+
+        /* ── Visual block ── */
+        .hero-visual {
+          position: relative;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          /* Mobile: order 2 (middle), centered */
+          order: 2;
+          height: 240px;
+          width: 100%;
+          margin: 4px 0 0;
+        }
+        @media (min-width: 480px) { .hero-visual { height: 270px; } }
+        @media (min-width: 640px) { .hero-visual { height: 310px; } }
+        @media (min-width: 768px) {
+          .hero-visual { height: 360px; margin: 0; order: unset; }
+        }
+        @media (min-width: 1024px) { .hero-visual { height: 400px; } }
+
+        .hero-visual-inner {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transform: scale(0.62);
+          transform-origin: center center;
+        }
+        @media (min-width: 480px) { .hero-visual-inner { transform: scale(0.72); } }
+        @media (min-width: 640px) { .hero-visual-inner { transform: scale(0.82); } }
+        @media (min-width: 768px) { .hero-visual-inner { transform: scale(0.9); } }
+        @media (min-width: 1024px) { .hero-visual-inner { transform: scale(1); } }
+
+        /* ── CTA wrapper — mobile: order 3 (bottom of image) ── */
+        .cta-wrapper {
+          order: 3;
+          width: 100%;
+          padding: 20px 0 0;
+          display: flex;
+          justify-content: center;
+        }
+        @media (min-width: 768px) {
+          /* On desktop it's inside .hero-text, so this wrapper is hidden */
+          .cta-wrapper { display: none; }
+        }
+
+        /* Desktop CTA — hidden on mobile ── */
+        .cta-desktop {
+          display: none;
+        }
+        @media (min-width: 768px) {
+          .cta-desktop { display: flex; }
+        }
+
+        /* ── Video wrapper ── */
+        .video-wrapper {
+          position: relative;
+          width: 100%;
+          min-height: 100vh;
+          display: flex;
+          flex-direction: column;
+          overflow: hidden;
+        }
+        .video-overlay {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(
+            to bottom,
+            rgba(9,7,33,0.55) 0%,
+            rgba(9,7,33,0.35) 50%,
+            rgba(9,7,33,0.92) 100%
+          );
+          z-index: 2;
+        }
+
+        .orb { pointer-events: none; position: absolute; border-radius: 50%; }
+
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(18px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up-1 { animation: fadeUp 0.7s ease 0.1s both; }
+        .fade-up-2 { animation: fadeUp 0.7s ease 0.25s both; }
+        .fade-up-3 { animation: fadeUp 0.7s ease 0.4s both; }
+        .fade-up-4 { animation: fadeUp 0.7s ease 0.55s both; }
+      `}</style>
+
+      <main
+        className="home-root"
+        style={{ minHeight: "100vh", background: "#090721", color: "#f1f5f9", overflow: "hidden" }}
+      >
+        <section className="video-wrapper grid-bg">
+
+          {/* Orbs */}
+          <div className="orb" style={{
+            top: -100, right: -100,
+            width: "clamp(220px, 40vw, 500px)",
+            height: "clamp(220px, 40vw, 500px)",
+            background: "radial-gradient(circle, #6366f1 0%, #1d4ed8 50%, transparent 70%)",
+            opacity: 0.22, filter: "blur(70px)", zIndex: 1,
+          }} />
+          <div className="orb" style={{
+            bottom: 0, left: -80,
+            width: "clamp(180px, 30vw, 400px)",
+            height: "clamp(180px, 30vw, 400px)",
+            background: "radial-gradient(circle, #e879f9 0%, #7c3aed 50%, transparent 70%)",
+            opacity: 0.12, filter: "blur(60px)", zIndex: 1,
+          }} />
+
+          {/* Background video */}
+          <video
+            style={{
+              position: "absolute", inset: 0,
+              width: "100%", height: "100%",
+              objectFit: "cover", zIndex: 1, opacity: 0.35,
+            }}
+            autoPlay muted loop playsInline preload="metadata" poster="/fallback.jpg"
+          >
+            <source src="/bg.mp4" type="video/mp4" />
+          </video>
+
+          <div className="video-overlay" />
+
+          {/* Content */}
+          <div style={{
+            position: "relative", zIndex: 10,
+            display: "flex", flexDirection: "column", minHeight: "100vh",
+          }}>
+            {/* Navbar */}
+            <nav className="navbar">
+              <div className="navbar-logo">
+                <span className="logo-dot" />
+                Learnexa
+              </div>
+              <Lagout />
+            </nav>
+
+            {/* Hero body */}
+            <div className="hero-body">
+
+              {/* 1 — Text (top on mobile, left on desktop) */}
+              <div className="hero-text fade-up-1">
+                <div className="hero-tag">
+                  <span style={{
+                    width: 6, height: 6, borderRadius: "50%",
+                    background: "#6366f1", boxShadow: "0 0 8px #6366f1",
+                    display: "inline-block", flexShrink: 0,
+                  }} />
+                  AI-Powered Education Platform
+                </div>
+
+                <h1 className="hero-title fade-up-2">
+                  Learn Smarter.<br />
+                  <span className="gradient-text">Grow Faster.</span>
+                </h1>
+
+                <p className="hero-subtitle fade-up-3">
+                  Personalized AI learning paths that adapt to your skill gaps, pace, and goals — so every minute you study actually counts.
+                </p>
+
+                {/* Buttons — desktop only (shown inline with text) */}
+                <div className="cta-row cta-desktop fade-up-4" style={{ marginTop: 28 }}>
+                  <Link href="/Main" className="cta-btn">
+                    Get Started →
+                  </Link>
+                  <Link href="/Cources" className="secondary-link">
+                    Browse Courses ↗
+                  </Link>
+                </div>
+              </div>
+
+              {/* 2 — Visual (middle on mobile, right on desktop) */}
+              <div className="hero-visual fade-up-3">
+                <div className="hero-visual-inner">
+                  <CircleLogos />
+                  <Image
+                    src={HeroImg}
+                    alt="Hero"
+                    width={320}
+                    style={{ position: "absolute" }}
+                  />
+                </div>
+              </div>
+
+              {/* 3 — Buttons (below image on mobile only) */}
+              <div className="cta-wrapper fade-up-4">
+                <div className="cta-row" style={{ maxWidth: 360 }}>
+                  <Link href="/Main" className="cta-btn">
+                    Get Started →
+                  </Link>
+                  <Link href="/Cources" className="secondary-link">
+                    Browse Courses ↗
+                  </Link>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Bottom fade */}
+          <div style={{
+            position: "absolute", bottom: 0, left: 0, right: 0,
+            height: 160,
+            background: "linear-gradient(to bottom, transparent, #090721)",
+            zIndex: 10, pointerEvents: "none",
+          }} />
+        </section>
+
+        {/* ══ BELOW-FOLD SECTIONS ══ */}
+        <div className="grid-bg" style={{ position: "relative" }}>
+          <div className="orb" style={{
+            top: 100, right: -120,
+            width: "clamp(200px, 35vw, 450px)",
+            height: "clamp(200px, 35vw, 450px)",
+            background: "radial-gradient(circle, #22d3ee 0%, #0891b2 50%, transparent 70%)",
+            opacity: 0.08, filter: "blur(70px)", zIndex: 0,
+          }} />
+          <div className="orb" style={{
+            bottom: 200, left: -100,
+            width: "clamp(180px, 30vw, 400px)",
+            height: "clamp(180px, 30vw, 400px)",
+            background: "radial-gradient(circle, #6366f1 0%, #4f46e5 50%, transparent 70%)",
+            opacity: 0.09, filter: "blur(60px)", zIndex: 0,
+          }} />
+
+          <div style={{ position: "relative", zIndex: 1 }}>
+            <StatsSection />
+            <Working />
+            <Fsection />
+            <Footer />
+          </div>
         </div>
-      </div>
-
-      <div className="h-64 w-full max-w-sm flex items-center justify-center">
-        <Image src={HeroImg} alt="Hero Image" width={350} />
-      </div>
-
-      {/* <div>
-        <HeroImage />
-      </div> */}
-    </div>
-
-    {/* Feature Cards */}
-    {/* <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-20 mx-4 md:mx-12">
-      <div className="rounded-[10px] flex flex-col gap-3 bg-[#ADFFFF] p-4 shadow-md w-full max-w-xs h-40 cursor-pointer transition-transform duration-300 hover:scale-105">
-        <Image src={BookImg} alt="Read icon" width={40} height={40} />
-        <div>
-          <h1 className="font-semibold text-lg">Courses</h1>
-          <p className="text-black">Explore a variety of job-focused courses</p>
-        </div>
-      </div>
-
-      <div className="rounded-[10px] bg-[#FFDDAD] flex flex-col gap-3 p-4 shadow-md w-full max-w-xs h-40 cursor-pointer transition-transform duration-300 hover:scale-105">
-        <Image
-          src={gemini}
-          className="relative right-2 top-[-10px]"
-          alt="AI icon"
-          width={90}
-          height={90}
-        />
-        <div className="relative top-[-10px]">
-          <h1 className="font-semibold text-lg">AI Help</h1>
-          <p className="text-black">Take help from the AI chatbot</p>
-        </div>
-      </div>
-
-      <div className="rounded-[10px] bg-[#D9ADFF] flex flex-col gap-3 p-4 shadow-md w-full max-w-xs h-40 cursor-pointer transition-transform duration-300 hover:scale-105">
-        <Image src={Idea} alt="Idea icon" width={40} height={40} />
-        <div>
-          <h1 className="font-semibold text-lg">Resources</h1>
-          <p className="text-black">Explore resources for upskilling</p>
-        </div>
-      </div>
-    </div> */}
-  </section>
-
-  {/* Other Sections */}
-  <section>
-    <Working />
-  </section>
-
-  <section>
-    <Fsection />
-  </section>
-
-  <section>
-    <Footer />
-  </section>
-</main>
+      </main>
+    </>
   );
 }
