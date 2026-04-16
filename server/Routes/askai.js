@@ -1,5 +1,4 @@
 
-// const authMiddleware  = require('./jwt')
 
 const express = require("express");
 const dotenv = require("dotenv");
@@ -7,17 +6,12 @@ const multer = require("multer");
 
 dotenv.config();
 
-// pdf-parse fix: some versions export the function as .default, others directly
 const pdfParseLib = require("pdf-parse");
 const pdfParse = typeof pdfParseLib === "function" ? pdfParseLib : pdfParseLib.default;
 const askai = express.Router();
 askai.use(express.json({ limit: "10mb" }));
 
-/* ------------------------------
-   MULTER CONFIG (MEMORY)
---------------------------------*/
 
-// askai.use(authMiddleware)
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -31,24 +25,20 @@ const upload = multer({
   },
 });
 
-/* ------------------------------
-   GEMINI CONFIG
---------------------------------*/
+
 const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`;
 
-/* ------------------------------
-   POST /askai
---------------------------------*/
+
 askai.post("/askai", upload.single("resume"), async (req, res) => {
   try {
     
-    // console.log("from ai chatbot log",authMiddleware)
+    
 
     const mode = req.body?.mode || "chat";
     const prompt = req.body?.prompt || "";
     const jobTitle = req.body?.jobTitle || "";
 
-    /* ---------- CHAT MODE ---------- */
+
     if (mode === "chat") {
       if (!prompt.trim()) {
         return res.status(400).json({ message: "Prompt is required" });
@@ -66,13 +56,13 @@ ${prompt}
       return res.json({ text: response });
     }
 
-    /* ---------- RESUME MODE ---------- */
+
     if (mode === "resume") {
       if (!req.file) {
         return res.status(400).json({ message: "Resume PDF file is required" });
       }
 
-      // Verify pdfParse loaded correctly
+
       if (typeof pdfParse !== "function") {
         console.error("pdfParse is not a function. Value:", pdfParse);
         return res.status(500).json({ message: "PDF parser failed to initialize on server." });
@@ -136,9 +126,7 @@ ${resumeText}
   }
 });
 
-/* ------------------------------
-   GEMINI CALL FUNCTION
---------------------------------*/
+
 async function callGemini(text) {
   const response = await fetch(GEMINI_URL, {
     method: "POST",

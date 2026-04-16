@@ -1,11 +1,9 @@
 const express = require("express");
-const bcrypt = require("bcrypt"); // ✅ MISSING IMPORT
+const bcrypt = require("bcrypt");
 const signup = express.Router();
 const jwt = require("jsonwebtoken");
 const SignupModel = require("../Database/Schemas/signupSchema");
 
-// ❌ NOT REQUIRED here because server already uses express.json()
-// signup.use(express.json());
 
 signup.post("/signup", async (req, res) => {
   try {
@@ -28,7 +26,6 @@ signup.post("/signup", async (req, res) => {
     });
 
     res.status(201).json({
-      // ✅ res.status
       message: "Signup successful",
       userId: user._id,
     });

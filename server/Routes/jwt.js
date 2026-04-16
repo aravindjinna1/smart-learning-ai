@@ -4,11 +4,9 @@ const authMiddleware = (req, res, next) => {
 
   console.log("🔥 AUTH MIDDLEWARE HIT 🔥");
 
-  // const token = req.cookies?.token;
   
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // Bearer <token>
-   
+  const token = authHeader && authHeader.split(" ")[1];
   if (!token) {
     return res.status(401).json({ message: "Unauthorized: token missing" });
   }

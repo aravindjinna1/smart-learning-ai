@@ -30,7 +30,7 @@ app.use("/auth", require("./Routes/passwordRoute"));
 
 // app.use("/auth", authRoutes);
 app.use("/app", signupRoute);
-app.use("/app", signinRoute);
+app.use("/app/si", signinRoute);
 // app.use("/app/otp", );
 
 // app.post("/auth/forgot-password", forgotPassword);
@@ -41,7 +41,7 @@ app.use("/app", signinRoute);
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
-app.use("/app/ai",authMiddleware, askai);
+app.use("/app/ai", askai);
 console.log(authMiddleware)
-
+// authMiddleware
 module.exports = app;
