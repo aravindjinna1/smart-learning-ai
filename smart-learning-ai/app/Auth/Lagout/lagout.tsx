@@ -9,12 +9,24 @@ const Lagout = () => {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const t = localStorage.getItem("token");
-    if (t) setToken(t);
+    // initial read
+    setToken(localStorage.getItem("token"));
+
+    // listen for auth changes
+    const handleAuthChange = () => {
+      setToken(localStorage.getItem("token"));
+    };
+
+    window.addEventListener("auth-change", handleAuthChange);
+
+    return () => {
+      window.removeEventListener("auth-change", handleAuthChange);
+    };
   }, []);
 
   const HandleLagout = () => {
     localStorage.removeItem("token");
+    window.dispatchEvent(new Event("auth-change"));
     router.push("/Auth/Login");
   };
 
@@ -40,13 +52,13 @@ const Lagout = () => {
             transition: "all 0.2s",
           }}
           onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLButtonElement;
+            const el = e.currentTarget;
             el.style.background = "rgba(239,68,68,0.1)";
             el.style.borderColor = "rgba(239,68,68,0.3)";
             el.style.color = "#fca5a5";
           }}
           onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLButtonElement;
+            const el = e.currentTarget;
             el.style.background = "rgba(255,255,255,0.05)";
             el.style.borderColor = "rgba(255,255,255,0.1)";
             el.style.color = "#94a3b8";
@@ -74,12 +86,12 @@ const Lagout = () => {
             boxShadow: "0 4px 16px rgba(99,102,241,0.25)",
           }}
           onMouseEnter={(e) => {
-            const el = e.currentTarget as HTMLAnchorElement;
+            const el = e.currentTarget;
             el.style.boxShadow = "0 0 24px rgba(99,102,241,0.5)";
             el.style.transform = "translateY(-1px)";
           }}
           onMouseLeave={(e) => {
-            const el = e.currentTarget as HTMLAnchorElement;
+            const el = e.currentTarget;
             el.style.boxShadow = "0 4px 16px rgba(99,102,241,0.25)";
             el.style.transform = "translateY(0)";
           }}

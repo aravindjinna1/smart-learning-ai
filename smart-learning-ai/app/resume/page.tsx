@@ -95,7 +95,6 @@ export default function ResumeBuilderPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
-        .rb-root { font-family: 'Syne', sans-serif; }
         .mono { font-family: 'JetBrains Mono', monospace; }
 
         .grid-bg {

@@ -353,13 +353,13 @@ export default function Home() {
             display: "flex", flexDirection: "column", minHeight: "100vh",
           }}>
             {/* Navbar */}
-            <nav className="navbar">
+            {/* <nav className="navbar">
               <div className="navbar-logo">
                 <span className="logo-dot" />
                 Learnexa
               </div>
               <Lagout />
-            </nav>
+            </nav> */}
 
             {/* Hero body */}
             <div className="hero-body">

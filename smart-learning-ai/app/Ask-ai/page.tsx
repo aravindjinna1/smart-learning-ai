@@ -165,7 +165,6 @@ export default function AskiAi() {
           --muted: #64748b;
         }
 
-        .aski-root { font-family: 'Syne', sans-serif; }
         .mono { font-family: 'JetBrains Mono', monospace; }
 
         /* Grid bg same as courses */

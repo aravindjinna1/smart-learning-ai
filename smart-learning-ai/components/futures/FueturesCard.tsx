@@ -104,4 +104,4 @@ export default function FeatureCard({ title, description, icon, color }: Feature
       </p>
     </div>
   );
-}
+} 
