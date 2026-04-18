@@ -26,8 +26,13 @@ export default function LoginPage() {
       const info = await res.json();
       localStorage.setItem("token", info.token);
 
-      if (!res.ok) throw new Error("Signin failed");
+    //   if (!res.ok) throw new Error(info?.message || "Signin failed");
+
+    //    if (!info?.token) {
+    //   throw new Error("Token missing in response");
+    // }
       alert("Signin successful");
+      window.location.href = "/Main";
     } catch (error) {
       console.error("Signin failed", error);
     }

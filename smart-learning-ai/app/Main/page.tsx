@@ -30,15 +30,7 @@ export default function DashboardPage() {
       />
 
       {/* ── Nav bar ── */}
-      <header className="relative z-10 flex items-center justify-between px-8 py-5 border-b border-white/10">
-        <div className="flex items-center gap-2">
-          <span className="text-yellow-400 text-xl">⚡</span>
-          <span className="text-white font-extrabold tracking-widest text-sm uppercase">
-            Learnexa
-          </span>
-        </div>
-        <Lagout />
-      </header>
+  
 
       {/* ── Hero ── */}
       <section className="relative z-10 px-8 pt-16 pb-10 max-w-3xl">
