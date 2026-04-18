@@ -9,7 +9,7 @@ import {
   FileText,
   BarChart3,
 } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion, Variants } from "framer-motion";
 
 const features = [
   {
@@ -59,7 +59,8 @@ const colors = [
   "#fb923c",
 ];
 
-const containerVariants = {
+
+const containerVariants: Variants = {
   hidden: {},
   show: {
     transition: {
@@ -68,7 +69,7 @@ const containerVariants = {
   },
 };
 
-const cardVariants = {
+const cardVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 28,
@@ -78,10 +79,11 @@ const cardVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
+      ease: [0.4, 0, 0.2, 1],
     },
   },
 };
+
 
 export default function FeaturesSection() {
   return (
@@ -104,7 +106,7 @@ export default function FeaturesSection() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: false, margin: "-100px" }}
-        >
+        >    
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
