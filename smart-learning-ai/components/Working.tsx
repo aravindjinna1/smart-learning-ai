@@ -138,7 +138,14 @@ const Working = () => {
           {steps.map((step, i) => (
             <div
               key={step.number}
-              ref={(el) => el && (cardsRef.current[i] = el)}
+
+ref={(el) => {
+  if (el) {
+    cardsRef.current[i] = el;
+  } else {
+    cardsRef.current[i] = null as any;
+  }
+}}              
               className={`working-card ${i % 2 === 0 ? "from-left" : "from-right"}`}
               style={{ transitionDelay: `${i * 120}ms` }}
               onMouseEnter={(e) => {

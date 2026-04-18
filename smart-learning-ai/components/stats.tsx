@@ -41,7 +41,7 @@ export default function StatsSection() {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     cardsRef.current.forEach((el) => el && observer.observe(el));
@@ -85,27 +85,71 @@ export default function StatsSection() {
       <div style={{ maxWidth: 1100, margin: "0 auto" }}>
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: 48 }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
-            <div style={{ height: 1, width: 32, background: "linear-gradient(90deg, transparent, #6366f1)" }} />
-            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: "0.14em", textTransform: "uppercase", color: "#6366f1" }}>
+          <div
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              marginBottom: 12,
+            }}
+          >
+            <div
+              style={{
+                height: 1,
+                width: 32,
+                background: "linear-gradient(90deg, transparent, #6366f1)",
+              }}
+            />
+            <span
+              style={{
+                fontSize: 10,
+                fontWeight: 700,
+                letterSpacing: "0.14em",
+                textTransform: "uppercase",
+                color: "#6366f1",
+              }}
+            >
               By the numbers
             </span>
-            <div style={{ height: 1, width: 32, background: "linear-gradient(90deg, #6366f1, transparent)" }} />
+            <div
+              style={{
+                height: 1,
+                width: 32,
+                background: "linear-gradient(90deg, #6366f1, transparent)",
+              }}
+            />
           </div>
-          <h2 style={{ fontSize: "clamp(26px, 3.5vw, 38px)", fontWeight: 800, color: "#f1f5f9", margin: 0 }}>
+          <h2
+            style={{
+              fontSize: "clamp(26px, 3.5vw, 38px)",
+              fontWeight: 800,
+              color: "#f1f5f9",
+              margin: 0,
+            }}
+          >
             Trusted by Learners Across India
           </h2>
         </div>
 
         {/* Cards */}
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+            gap: 20,
+          }}
+        >
           {stats.map((stat, i) => {
             const Icon = stat.icon;
             return (
               <div
                 key={i}
                 ref={(el) => {
-                  if (el) cardsRef.current[i] = el;
+                  if (el) {
+                    cardsRef.current[i] = el;
+                  } else {
+                    cardsRef.current[i] = null as any;
+                  }
                 }}
                 className="stat-card"
                 style={{ transitionDelay: `${i * 120}ms` }}
@@ -121,46 +165,83 @@ export default function StatsSection() {
                 }}
               >
                 {/* Accent */}
-                <div style={{
-                  position: "absolute", top: 0, left: 0, right: 0, height: 1,
-                  background: `linear-gradient(90deg, transparent, ${stat.color}, transparent)`,
-                }} />
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: 1,
+                    background: `linear-gradient(90deg, transparent, ${stat.color}, transparent)`,
+                  }}
+                />
 
                 {/* Glow */}
-                <div style={{
-                  position: "absolute", top: -40, left: "50%", transform: "translateX(-50%)",
-                  width: 120, height: 120, borderRadius: "50%",
-                  background: stat.color, opacity: 0.08, filter: "blur(28px)",
-                }} />
+                <div
+                  style={{
+                    position: "absolute",
+                    top: -40,
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    width: 120,
+                    height: 120,
+                    borderRadius: "50%",
+                    background: stat.color,
+                    opacity: 0.08,
+                    filter: "blur(28px)",
+                  }}
+                />
 
                 {/* Icon */}
-                <div style={{
-                  width: 52, height: 52, borderRadius: 14,
-                  background: `${stat.color}18`,
-                  border: `1.5px solid ${stat.color}30`,
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  margin: "0 auto",
-                }}>
+                <div
+                  style={{
+                    width: 52,
+                    height: 52,
+                    borderRadius: 14,
+                    background: `${stat.color}18`,
+                    border: `1.5px solid ${stat.color}30`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto",
+                  }}
+                >
                   <Icon size={22} style={{ color: stat.color }} />
                 </div>
 
-                <p style={{ fontSize: 40, fontWeight: 800, color: "#f1f5f9", margin: "8px 0 0" }}>
+                <p
+                  style={{
+                    fontSize: 40,
+                    fontWeight: 800,
+                    color: "#f1f5f9",
+                    margin: "8px 0 0",
+                  }}
+                >
                   {stat.value}
                 </p>
-                <p style={{ fontSize: 15, fontWeight: 700, color: "#e2e8f0", margin: 0 }}>
+                <p
+                  style={{
+                    fontSize: 15,
+                    fontWeight: 700,
+                    color: "#e2e8f0",
+                    margin: 0,
+                  }}
+                >
                   {stat.label}
                 </p>
                 <p style={{ fontSize: 12, color: "#475569", margin: 0 }}>
                   {stat.sub}
                 </p>
 
-                <div style={{
-                  height: 3,
-                  width: 40,
-                  margin: "8px auto 0",
-                  borderRadius: 999,
-                  background: `linear-gradient(90deg, ${stat.color}, ${stat.color}44)`,
-                }} />
+                <div
+                  style={{
+                    height: 3,
+                    width: 40,
+                    margin: "8px auto 0",
+                    borderRadius: 999,
+                    background: `linear-gradient(90deg, ${stat.color}, ${stat.color}44)`,
+                  }}
+                />
               </div>
             );
           })}
