@@ -312,8 +312,8 @@ export default function Home() {
       `}</style>
 
       <main
-        className="home-root"
-        style={{ minHeight: "100vh", background: "#090721", color: "#f1f5f9", overflow: "hidden" }}
+        className="home-root w-screen overflow-hidden"
+        style={{ background: "#090721", color: "#f1f5f9", overflow: "hidden" }}
       >
         <section className="video-wrapper grid-bg">
 

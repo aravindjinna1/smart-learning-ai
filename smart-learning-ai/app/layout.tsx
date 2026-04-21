@@ -27,14 +27,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+    <html lang="en" >
+      <body 
+        className={`${geistSans.variable}  ${geistMono.variable} antialiased`}
       >
         {/* <SplashCursor /> */}
         <CustomCursor />
-        <Navbar />
+
+        
+
+        <div className="overflow-hidden  ">
+         <Navbar />
         {children}
+
+        </div>
+       
       </body>
     </html>
   );
