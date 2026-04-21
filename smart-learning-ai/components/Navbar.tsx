@@ -8,7 +8,7 @@ const Navbar = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="w-full flex items-center justify-between px-6 md:px-10 py-5 relative z-50">
+    <nav className="w-full flex  items-center justify-between px-6 md:px-10 py-5 relative z-50">
       {/* Logo */}
       <div className="flex items-center gap-2 text-white font-extrabold tracking-widest text-sm uppercase">
         <span className="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_12px_#6366f1]" />
@@ -17,6 +17,9 @@ const Navbar = () => {
 
       {/* Desktop Menu */}
       <div className="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-300">
+        <Link href="/" className="hover:text-white transition">
+          Home
+        </Link>
         <Link href="/Cources" className="hover:text-white transition">
           Courses
         </Link>
@@ -61,6 +64,14 @@ const Navbar = () => {
       {open && (
         <div className="absolute top-full left-0 w-full bg-[#0b0f1a]/95 backdrop-blur-xl border-t border-white/10 md:hidden">
           <div className="flex flex-col px-6 py-6 gap-5 text-slate-300 font-semibold text-sm">
+           
+            <Link
+              href="/"
+              onClick={() => setOpen(false)}
+              className="hover:text-white"
+            >
+              Home
+            </Link>
             <Link
               href="/Cources"
               onClick={() => setOpen(false)}

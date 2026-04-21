@@ -12,6 +12,20 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* hide cursor everywhere except clickable elements */
+* {
+  cursor: none !important;
+}
+
+a, button, [role="button"],
+select, input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  cursor: pointer !important;
+}
+
+
+
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0B0F19;
